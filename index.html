@@ -1,0 +1,35 @@
+<!--initially based on the sample code here: http://tinyurl.com/gmproj4
+using the javascript google maps api key from https://console.developers.google.com
+-->
+
+<!DOCTYPE html>
+<html>
+    
+  <head>
+    <title>Plan my Route</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    
+    <style>
+    </style>
+  </head>
+    
+    
+  <body>
+      <center><h1>Calculate a Route</h1></center>    
+          <div class="searchInput"> 
+                <input type = "text" name="searchbox" placeholder="Set start location" id="mysearchbox" style="width: 400px">
+          </div>
+
+    <!--<script type="text/javascript"></script>-->
+      <script src="searchCode.js"></script>
+      
+      
+      <!--added my api key here and "&libraries=places" which imports the places library-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB04Iha4MnlTVAvjGXQ_9vlQoH-ZTijq4U&callback=initMaps&libraries=places" async defer></script>
+<!-- Include JQuery -->
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        
+  </body>
+    
+</html>
