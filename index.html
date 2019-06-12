@@ -1,35 +1,87 @@
-<!--initially based on the sample code here: http://tinyurl.com/gmproj4
-using the javascript google maps api key from https://console.developers.google.com
--->
-
 <!DOCTYPE html>
 <html>
-    
-  <head>
-    <title>Plan my Route</title>
+<head>
+    <title>Worth the Toll?</title>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
-    
-    <style>
-    </style>
-  </head>
-    
-    
-  <body>
-      <center><h1>Calculate a Route</h1></center>    
-          <div class="searchInput"> 
-                <input type = "text" name="searchbox" placeholder="Set start location" id="mysearchbox" style="width: 400px">
-          </div>
 
-    <!--<script type="text/javascript"></script>-->
-      <script src="searchCode.js"></script>
-      
-      
-      <!--added my api key here and "&libraries=places" which imports the places library-->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB04Iha4MnlTVAvjGXQ_9vlQoH-ZTijq4U&callback=initMaps&libraries=places" async defer></script>
-<!-- Include JQuery -->
-      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        
-  </body>
+    <style>
+        #setup-page {
+            display: none;
+        }
+
+        .bubble {
+            display: inline-block;
+            padding: 5px;
+            border-radius: 5px;
+            width: 200px;
+            background-color: lightBlue;
+            margin: 20px;
+        }
+
+        #result-bubble {
+            display: inline-block;
+        }
+        #result-info {
+            color: red;
+            font-size: 20px
+        }
+
+        #home-label, #work-label {
+            font-weight: bold;
+            font-size: 25px
+
+        }
+
+        .arrow {
+            font-size 240px;
+
+        }
+    </style>
+</head>
     
+    
+<body>
+    <center><h1>Worth the Toll</h1></center>    
+
+    <!-- the setup page for creating a URL -->
+    <div id="setup-page">
+        <div class="searchInput"> 
+            <input type = "text" name="searchbox" placeholder="Set start location" id="mysearchbox" style="width: 400px">
+        </div>
+    </div>
+
+
+    <!-- the results page for viewing toll results -->
+    <div id="results-page">
+        <center>
+
+        <div id="home-bubble" class="bubble">
+            <div id="home-label">Home</div>
+            <div id="home-address"></div>
+        </div>
+
+        <!-- TODO: make this a div arrow pointing from home -> work -->
+        <div id="result-bubble">
+            <span class="arrow">&#10230;</span>
+            <div id="result-info"></div>
+            <span class="arrow">&#10229;</span>
+
+        </div>
+
+
+        <div id="work-bubble" class="bubble">
+            <div id="work-label">Work</div>
+            <div id="work-address"></div>
+        </div>
+        </center>
+    </div>
+
+
+    <script src="searchCode.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB04Iha4MnlTVAvjGXQ_9vlQoH-ZTijq4U&callback=initMaps&libraries=places" async defer></script>
+    <!-- Include JQuery -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+</body>
+
 </html>
