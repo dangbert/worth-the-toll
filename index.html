@@ -23,20 +23,48 @@
             display: inline-block;
         }
         #result-info {
+            /*
             color: red;
             font-size: 20px
+                */
         }
 
         #home-label, #work-label {
             font-weight: bold;
             font-size: 25px
-
         }
 
         .arrow {
             font-size 240px;
-
         }
+
+        /* arrow based on https://stackoverflow.com/a/23109687 */
+        .arrow-text {
+            background-color:#ff0000;
+            color:#fff;
+            display:inline-block;
+            padding-left:4px;
+        }
+        .big-arrow {
+            border-style: dashed;
+            border-color: transparent;
+            border-width: 0.20em;
+            display: -moz-inline-box;
+            display: inline-block;
+            /* Use font-size to control the size of the arrow. */
+            font-size: 100px;
+            height: 0;
+            line-height: 0;
+            position: relative;
+            vertical-align: middle;
+            width: 0;
+            background-color:#fff; /* change background color acc to bg color */ 
+            border-left-width: 0.2em;
+            border-left-style: solid;
+            border-left-color: #ff0000;
+            left:0.25em;
+        }
+
     </style>
 </head>
     
@@ -54,26 +82,29 @@
 
     <!-- the results page for viewing toll results -->
     <div id="results-page">
+
+
+        <!-- duration of travel to work -->
         <center>
+            <div class="arrow-text" id="result-info">test<span class="big-arrow"></span></div>
+        </center>
 
-        <div id="home-bubble" class="bubble">
-            <div id="home-label">Home</div>
-            <div id="home-address"></div>
-        </div>
+        <!-- display home and work addresses -->
+        <center>
+            <div id="home-bubble" class="bubble">
+                <div id="home-label">Home</div>
+                <div id="home-address"></div>
+            </div>
 
-        <!-- TODO: make this a div arrow pointing from home -> work -->
-        <div id="result-bubble">
-            <span class="arrow">&#10230;</span>
-            <div id="result-info"></div>
-            <span class="arrow">&#10229;</span>
+            <div id="work-bubble" class="bubble">
+                <div id="work-label">Work</div>
+                <div id="work-address"></div>
+            </div>
+        </center>
 
-        </div>
-
-
-        <div id="work-bubble" class="bubble">
-            <div id="work-label">Work</div>
-            <div id="work-address"></div>
-        </div>
+        <!-- duration of travel to home (from work) -->
+        <center>
+            <div class="arrow-text" id="result-info2">test<span class="big-arrow"></span></div>
         </center>
     </div>
 
