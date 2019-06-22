@@ -39,51 +39,56 @@ function initMaps() {
         setup();
         return;
     }
-    console.log("'" + homeId + "'");
-    console.log("'" + workId + "'");
 
-
-    // calculate time difference
+    // calculate travel times
     getLocById(homeId, function(homeLoc) {
         getLocById(workId, function(workLoc) {
-            console.log(homeLoc);
-            console.log(workLoc);
+            $("#home-address").html(homeLoc.formatted_address);
+            $("#work-address").html(workLoc.formatted_address);
 
-            // now get duration of each route
+            // get duration of route to home (w/ and w/o tolls)
             getDuration(homeLoc.geometry.location, workLoc.geometry.location, true, function(durTolls) {
                 getDuration(homeLoc.geometry.location, workLoc.geometry.location, false, function(durNoTolls) {
-                    console.log(durTolls);
-                    console.log(durNoTolls);
-                    // calculate time difference
-                    var diffSec = durNoTolls.value - durTolls.value;
-                    var diffMin = Math.floor(diffSec / 60);
-                    var diffHour = Math.floor(diffMin / 60);
-                    diffMin = diffMin - diffHour * 60;
-                    diffSec = diffSec - diffMin * 60;
-
-                    var diffString = "";
-                    if (diffHour !== 0) {
-                        diffString += diffHour + "h ";
-                    }
-                    diffString += diffMin + "m";
-                    console.log(diffString);
-
-                    // display results
-                    // TODO: also display total without tolls
-                    var res = durNoTolls.text;
-                    res += " (+" + diffString + " if avoiding tolls)";
+                    var diffString = getDiffString(durTolls, durNoTolls);
+                    var res = durNoTolls.text + " (+" + diffString + " if avoiding tolls)";
                     res += "<span class='big-arrow big-arrow-right'></span>";
-                    console.log(res);
+                    $("#result-info").html(res); // display results
+                });
+            });
 
-                    $("#home-address").html(homeLoc.formatted_address);
-                    $("#work-address").html(workLoc.formatted_address);
-                    $("#result-info").html(res);
-
+            // get duration of route to home (w/ and w/o tolls)
+            getDuration(workLoc.geometry.location, homeLoc.geometry.location, true, function(durTolls) {
+                getDuration(workLoc.geometry.location, homeLoc.geometry.location, false, function(durNoTolls) {
+                    var diffString = getDiffString(durTolls, durNoTolls);
+                    var res = "<span class='big-arrow big-arrow-left'></span>";
+                    res += durNoTolls.text + " (+" + diffString + " if avoiding tolls)";
+                    $("#result-info2").html(res); // display results
                 });
             });
         });
     });
 }
+
+/**
+ * return a string containing the travel time
+ * (converts from total seconds to ?h?m format
+ */
+function getDiffString(durTolls, durNoTolls) {
+    // calculate time difference
+    var diffSec = durNoTolls.value - durTolls.value;
+    var diffMin = Math.floor(diffSec / 60);
+    var diffHour = Math.floor(diffMin / 60);
+    diffMin = diffMin - diffHour * 60;
+    diffSec = diffSec - diffMin * 60;
+
+    var diffString = "";
+    if (diffHour !== 0) {
+        diffString += diffHour + "h ";
+    }
+    diffString += diffMin + "m";
+    return diffString;
+}
+
 
 /**
  * find the duration of a driving route
@@ -92,7 +97,7 @@ function initMaps() {
  * loc2: latlng object
  * allowTolls: bool (true if tolls enabled)
  * callback: function to pass the resulting duration object
-*/
+ */
 function getDuration(loc1, loc2, allowTolls, callback) {
     // https://developers.google.com/maps/documentation/javascript/directions
     var request = {
@@ -106,16 +111,12 @@ function getDuration(loc1, loc2, allowTolls, callback) {
     var directionsService = new google.maps.DirectionsService
     directionsService.route(request, function(result, status) {
         if (status == google.maps.DirectionsStatus.OK) {
-            console.log("success");
-            console.log(result);
-
             // get fastest route from results
             var best = result.routes[0].legs[0].duration;
             for (var i=1; i<result.routes; i++) {
               if (result.routes[i].legs[0].duration.value < best.value)
                 best = result.routes[i].legs[0].duration;
             }
-            console.log("time: " + best.text);
             callback(best);
         } else
             setup("Error: calculating direction information failed");
