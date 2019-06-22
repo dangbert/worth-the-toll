@@ -71,8 +71,8 @@ function initMaps() {
                     // display results
                     // TODO: also display total without tolls
                     var res = durNoTolls.text;
-                    res += " (+" + diffString + " extra avoiding tolls)";
-                    res += "<span class='big-arrow'></span>";
+                    res += " (+" + diffString + " if avoiding tolls)";
+                    res += "<span class='big-arrow big-arrow-right'></span>";
                     console.log(res);
 
                     $("#home-address").html(homeLoc.formatted_address);

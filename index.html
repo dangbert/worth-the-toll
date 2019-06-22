@@ -40,11 +40,12 @@
 
         /* arrow based on https://stackoverflow.com/a/23109687 */
         .arrow-text {
-            background-color:#ff0000;
-            color:#fff;
-            display:inline-block;
-            padding-left:4px;
+            background-color: #ff0000;
+            color: #fff;
+            display: inline-block;
+            padding: 0px 4px 0px 4px;
         }
+        /* pointing to right */
         .big-arrow {
             border-style: dashed;
             border-color: transparent;
@@ -59,10 +60,24 @@
             vertical-align: middle;
             width: 0;
             background-color:#fff; /* change background color acc to bg color */ 
+
             border-left-width: 0.2em;
             border-left-style: solid;
             border-left-color: #ff0000;
-            left:0.25em;
+        }
+
+        /* pointing to right */
+        .big-arrow-right {
+            left: 0.25em; /* makes it a bit longer */
+        }
+
+        /* pointing to left */
+        .big-arrow-left {
+            border-left-color: transparent !important;
+            border-right-width: 0.2em;
+            border-right-style: solid;
+            border-right-color: #ff0000;
+            right: 0.25em;
         }
 
     </style>
@@ -70,7 +85,7 @@
     
     
 <body>
-    <center><h1>Worth the Toll</h1></center>    
+    <center><h1>Worth the Toll?</h1></center>    
 
     <!-- the setup page for creating a URL -->
     <div id="setup-page">
@@ -86,7 +101,7 @@
 
         <!-- duration of travel to work -->
         <center>
-            <div class="arrow-text" id="result-info">test<span class="big-arrow"></span></div>
+            <div class="arrow-text" id="result-info">test<span class="big-arrow-right"></span></div>
         </center>
 
         <!-- display home and work addresses -->
@@ -104,7 +119,11 @@
 
         <!-- duration of travel to home (from work) -->
         <center>
-            <div class="arrow-text" id="result-info2">test<span class="big-arrow"></span></div>
+            <div class="arrow-text" id="result-info2"><span class="big-arrow big-arrow-left"></span>test text sample abcdef ghijk lmnop</div>
+        </center>
+        <center>
+            <br><br><br>
+            <p><i>(Bookmark this page to quickly compare travel times with and without tolls)</i></p>
         </center>
     </div>
 
