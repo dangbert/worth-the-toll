@@ -6,7 +6,7 @@
     <meta charset="utf-8">
 
     <style>
-        #setup-page {
+        .hidden {
             display: none;
         }
 
@@ -88,20 +88,27 @@
     <center><h1>Worth the Toll?</h1></center>    
 
     <!-- the setup page for creating a URL -->
-    <div id="setup-page">
-        <div class="searchInput"> 
-            <input type = "text" name="searchbox" placeholder="Set start location" id="mysearchbox" style="width: 400px">
-        </div>
-    </div>
+    <div id="setup-page" class="hidden">
+        <center>
+            <b><p>Enter your home and work address to calculate toll info</p></b>
+            <div class="searchInput"> 
+                <input type = "text" name="searchbox" placeholder="Set HOME location" id="mysearchbox" style="width: 400px">
+            </div>
+            <br><br>
+            <div class="searchInput2"> 
+                <input type = "text" name="searchbox" placeholder="Set WORK location" id="mysearchbox2" style="width: 400px">
+            </div>
+            <br>
 
+            <button id="submit-btn">Compare Tolls</button>
+        </center>
+    </div>
 
     <!-- the results page for viewing toll results -->
     <div id="results-page">
-
-
         <!-- duration of travel to work -->
         <center>
-            <div class="arrow-text" id="result-info">calculating...<span class="big-arrow-right"></span></div>
+            <div class="arrow-text" id="result-info">calculating...<span class="big-arrow big-arrow-right"></span></div>
         </center>
 
         <!-- display home and work addresses -->
@@ -123,7 +130,8 @@
         </center>
         <center>
             <br><br><br>
-            <p><i>(Bookmark this page to quickly compare travel times with and without tolls)</i></p>
+            <p><i>(Bookmark this page to quickly compare your travel times with and without tolls)</i></p>
+            <p>Click <a href="./index.html">here</a> to create a new URL</p>
         </center>
     </div>
 

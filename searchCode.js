@@ -1,3 +1,6 @@
+var homeId = "";
+var workId = "";
+
 /**
  * setup page to help user create a valid url
  * (only call after google maps api has loaded)
@@ -5,26 +8,26 @@
  * errMsg: (optional) message to display in alert before setting up page
  */
 function setup(errMsg) {
+    $("#setup-page").removeClass("hidden");
+    $("#results-page").addClass("hidden");
+    ///window.history.pushState({}, document.title, "/"); // TODO: uncomment
     if (errMsg !== undefined)
         alert(errMsg);
-    window.history.pushState({}, document.title, "/");
 
     var searchBox = new google.maps.places.SearchBox(document.getElementById('mysearchbox'));
-    //if searchbox is used
-    searchBox.addListener('places_changed', function () {
-        //document.getElementById("mysearchbox").value = ""; //clear searchbox
-        
-        var start = searchBox.getPlaces()[0]; //add the first place from the search
-        console.log(JSON.stringify(start)); //print in JSON format
+    searchBox.addListener('places_changed', function () { // if searchbox is used
+        homeId = searchBox.getPlaces()[0].place_id;
+    });
+    var searchBox2 = new google.maps.places.SearchBox(document.getElementById('mysearchbox2'));
+    searchBox2.addListener('places_changed', function () { // if searchbox is used
+        workId = searchBox2.getPlaces()[0].place_id;
+    });
 
-        console.log(start['formatted_address']);
-
-        /*
-        document.getElementById("startInfo").innerHTML = "<br>" + start['name']; //shortened name
-        document.getElementById("startInfo").title = start['formatted_address'];
-        */
-        
-        //document.getElementById("startInfo").innerHTML = "<br>" + start['formatted_address'];
+    $("#submit-btn").on("click", function(e) {
+        //window.location.href = window.location + "?home=" + homeId + "&work=" + workId;
+        var dest = location.protocol + '//' + location.host + location.pathname;
+        dest += "?home=" + homeId + "&work=" + workId;
+        window.location.href = dest;
     });
 }
 
@@ -35,12 +38,12 @@ function setup(errMsg) {
 function initMaps() {
     var homeId = String(getUrlParams()["home"]);
     var workId = String(getUrlParams()["work"]);
-    if (homeId == undefined || workId == undefined) {
+    if (homeId == "undefined" || workId == "undefined") {
         setup();
         return;
     }
 
-    // calculate travel times
+    // calculate and display travel times
     getLocById(homeId, function(homeLoc) {
         getLocById(workId, function(workLoc) {
             $("#home-address").html(homeLoc.formatted_address);
@@ -68,27 +71,6 @@ function initMaps() {
         });
     });
 }
-
-/**
- * return a string containing the travel time
- * (converts from total seconds to ?h?m format
- */
-function getDiffString(durTolls, durNoTolls) {
-    // calculate time difference
-    var diffSec = durNoTolls.value - durTolls.value;
-    var diffMin = Math.floor(diffSec / 60);
-    var diffHour = Math.floor(diffMin / 60);
-    diffMin = diffMin - diffHour * 60;
-    diffSec = diffSec - diffMin * 60;
-
-    var diffString = "";
-    if (diffHour !== 0) {
-        diffString += diffHour + "h ";
-    }
-    diffString += diffMin + "m";
-    return diffString;
-}
-
 
 /**
  * find the duration of a driving route
@@ -143,6 +125,26 @@ function getLocById(placeId, callback) {
         } else
             setup("Error: Geocoder failed due to: " + status);
     });
+}
+
+/**
+ * return a string containing the travel time
+ * (converts from total seconds to ?h?m format
+ */
+function getDiffString(durTolls, durNoTolls) {
+    // calculate time difference
+    var diffSec = durNoTolls.value - durTolls.value;
+    var diffMin = Math.floor(diffSec / 60);
+    var diffHour = Math.floor(diffMin / 60);
+    diffMin = diffMin - diffHour * 60;
+    diffSec = diffSec - diffMin * 60;
+
+    var diffString = "";
+    if (diffHour !== 0) {
+        diffString += diffHour + "h ";
+    }
+    diffString += diffMin + "m";
+    return diffString;
 }
 
 /**
