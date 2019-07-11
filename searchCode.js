@@ -93,7 +93,12 @@ function getDuration(loc1, loc2, allowTolls, callback) {
         destination: loc2,
         avoidFerries: true,
         avoidTolls: !allowTolls,
-        travelMode: google.maps.TravelMode.DRIVING
+        travelMode: google.maps.TravelMode.DRIVING,
+        // take traffic into account!
+        drivingOptions: {
+            departureTime: new Date(Date.now()), // assuming we leave now
+            trafficModel: 'bestguess'
+        }
     }
     
     var directionsService = new google.maps.DirectionsService
@@ -145,6 +150,8 @@ function getDiffString(durTolls, durNoTolls) {
     diffMin = diffMin - diffHour * 60;
     diffSec = diffSec - diffMin * 60;
 
+    if (diffSec >= 30) // round if needed
+        diffMin++;
     var diffString = "";
     if (diffHour !== 0) {
         diffString += diffHour + "h ";
