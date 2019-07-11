@@ -52,8 +52,11 @@ function initMaps() {
             // get duration of route to home (w/ and w/o tolls)
             getDuration(homeLoc.geometry.location, workLoc.geometry.location, true, function(durTolls) {
                 getDuration(homeLoc.geometry.location, workLoc.geometry.location, false, function(durNoTolls) {
+                    console.log("home -> work");
+                    console.log("durTolls:"); console.log(durTolls);
+                    console.log("durNoTolls:"); console.log(durNoTolls);
                     var diffString = getDiffString(durTolls, durNoTolls);
-                    var res = durNoTolls.text + " (+" + diffString + " if avoiding tolls)";
+                    var res = durTolls.text + " (+" + diffString + " if avoiding tolls)";
                     res += "<span class='big-arrow big-arrow-right'></span>";
                     $("#result-info").html(res); // display results
                 });
@@ -62,9 +65,12 @@ function initMaps() {
             // get duration of route to home (w/ and w/o tolls)
             getDuration(workLoc.geometry.location, homeLoc.geometry.location, true, function(durTolls) {
                 getDuration(workLoc.geometry.location, homeLoc.geometry.location, false, function(durNoTolls) {
+                    console.log("\nwork -> home");
+                    console.log("durTolls:"); console.log(durTolls);
+                    console.log("durNoTolls:"); console.log(durNoTolls);
                     var diffString = getDiffString(durTolls, durNoTolls);
                     var res = "<span class='big-arrow big-arrow-left'></span>";
-                    res += durNoTolls.text + " (+" + diffString + " if avoiding tolls)";
+                    res += durTolls.text + " (+" + diffString + " if avoiding tolls)";
                     $("#result-info2").html(res); // display results
                 });
             });
